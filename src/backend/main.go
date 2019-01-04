@@ -9,10 +9,6 @@ import (
 
 func main() {
   e := echo.New()
-  // e.GET("/words", func(c echo.Context) error {
-  //   return c.String(http.StatusOK, "words, GET!")
-  // })
-  // Router初期化
   handlers.Router(e)
 
   host := "localhost"
