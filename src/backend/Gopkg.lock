@@ -2,6 +2,22 @@
 
 
 [[projects]]
+  branch = "master"
+  digest = "1:a43533baccdb3c8c2b849c932d70f56df8e2b83c6861c529dee8a031d69fa3cc"
+  name = "github.com/MichaelTJones/walk"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "4748e29d5718c2df4028a6543edf86fd8cc0f881"
+
+[[projects]]
+  branch = "master"
+  digest = "1:0778dc7fce1b4669a8bfa7ae506ec1f595b6ab0f8989c1c0d22a8ca1144e9972"
+  name = "github.com/howeyc/gopass"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "bf9dde6d0d2c004a008c27aaee91170c786f6db8"
+
+[[projects]]
   digest = "1:e55506f8670236cf09b6b65cda7d6afa403233a5b75397dfcba3555e484e4b18"
   name = "github.com/labstack/echo"
   packages = ["."]
@@ -37,6 +53,46 @@
   version = "v0.0.4"
 
 [[projects]]
+  branch = "master"
+  digest = "1:2b32af4d2a529083275afc192d1067d8126b578c7a9613b26600e4df9c735155"
+  name = "github.com/mgutz/ansi"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "9520e82c474b0a04dd04f8a40959027271bab992"
+
+[[projects]]
+  branch = "master"
+  digest = "1:1e6768c349cb08d80a2c39224d325fed93d5d41df93df66444bdc22ef8613dc1"
+  name = "github.com/mgutz/minimist"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "39eb8cf573ca29344bd7d7e6ba4d7febdebd37a9"
+
+[[projects]]
+  digest = "1:c182b8d45f3687b6c148eec6de90cda533ef58ee9e55a917a466597deec4878f"
+  name = "github.com/mgutz/str"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "968bf66e3da857419e4f6e71b2d5c9ae95682dc4"
+  version = "v1.2.0"
+
+[[projects]]
+  digest = "1:124ed46e55fae0c87b2a96ce3f2b918df69a5a40f32b12b049a6fae12965a4f1"
+  name = "github.com/mgutz/to"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "00c06406c2dd2e011f153a6502a21473676db33f"
+  version = "v1.0.0"
+
+[[projects]]
+  digest = "1:f6932ea98e86ea2ef88f9927b55d614884403620b81ac13cac81882314de55ca"
+  name = "github.com/nozzle/throttler"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "93e5576933fecb0d3fb25f2d2e50a012efd93ca0"
+  version = "v1.1"
+
+[[projects]]
   digest = "1:c468422f334a6b46a19448ad59aaffdfc0a36b08fdcc1c749a0b29b6453d7e59"
   name = "github.com/valyala/bytebufferpool"
   packages = ["."]
@@ -54,26 +110,48 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:e3d2db9bc633f4635e6418caf0b0734c43821ecd59105d1798458c6ae4d227fd"
+  digest = "1:cea8a31af44e77908c71e68561ce2e5992cf08d3ec29a3f9007f90c9b29bd001"
   name = "golang.org/x/crypto"
   packages = [
     "acme",
     "acme/autocert",
+    "ssh/terminal",
   ]
   pruneopts = "UT"
   revision = "ff983b9c42bc9fbf91556e191cc8efb585c16908"
 
 [[projects]]
   branch = "master"
-  digest = "1:5004e851e5eccde563d17871cd9d11c82e2faa578b1a0de81dc74867ad3845a4"
+  digest = "1:191cccd950a4aeadb60306062f2bdc2f924d750d0156ec6c691b17211bfd7349"
   name = "golang.org/x/sys"
-  packages = ["unix"]
+  packages = [
+    "unix",
+    "windows",
+  ]
   pruneopts = "UT"
   revision = "82a175fd1598e8a172e58ebdf5ed262bb29129e5"
+
+[[projects]]
+  digest = "1:f21a1b737a1d87a53fee6dca0047c9b73c5c2963630e1d9b13fa459dd5122dd5"
+  name = "gopkg.in/godo.v2"
+  packages = [
+    ".",
+    "cmd/godo",
+    "glob",
+    "util",
+    "watcher",
+    "watcher/fswatch",
+  ]
+  pruneopts = "UT"
+  revision = "b5fd2f0bef1ebe832e628cfad18ab1cc707f65a1"
+  version = "v2.0.9"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["github.com/labstack/echo"]
+  input-imports = [
+    "github.com/labstack/echo",
+    "gopkg.in/godo.v2/cmd/godo",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
