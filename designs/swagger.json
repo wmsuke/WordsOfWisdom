@@ -1,0 +1,329 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "これは名言集に関するAPIです。",
+    "version": "1.0.0",
+    "title": "Words of Wisdom API",
+    "termsOfService": "http://swagger.io/terms/",
+    "license": {
+      "name": "MIT",
+      "url": "http://spdx.org/licenses/MIT"
+    }
+  },
+  "paths": {
+    "/words": {
+      "get": {
+        "summary": "名言のリストを取得する",
+        "description": "名言のリストを返却します",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "アクセストークン",
+            "required": true,
+            "type": "string",
+            "format": "byte"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "ソート対象<br>nice<br>favorite",
+            "required": false,
+            "type": "string",
+            "format": "byte"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "“asc”または”desc” 指定が無い場合は”desc”",
+            "required": false,
+            "type": "string",
+            "format": "byte"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "オフセット",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "取得上限(1-100) 指定が無い場合は20",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "word": {
+                  "type": "string",
+                  "example": "失敗と書いて、成長と読む"
+                },
+                "genres": {
+                  "type": "string",
+                  "example": "スポーツ"
+                },
+                "nice": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "favorite": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          }
+        }
+      }
+    },
+    "/words/{wordId}": {
+      "get": {
+        "summary": "名言情報を取得する",
+        "description": "指定した名言の情報を返却する",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "アクセストークン",
+            "required": true,
+            "type": "string",
+            "format": "byte"
+          },
+          {
+            "name": "wordId",
+            "in": "path",
+            "description": "取得したい名言のID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "word": {
+                  "type": "string",
+                  "example": "失敗と書いて、成長と読む"
+                },
+                "genres": {
+                  "type": "string",
+                  "example": "スポーツ"
+                },
+                "nice": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "favorite": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Word not found"
+          }
+        }
+      }
+    },
+    "/words/{wordId}/nice": {
+      "put": {
+        "summary": "いいねをする",
+        "description": "指定した名言にいいね数をインクリメントする",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "アクセストークン",
+            "required": true,
+            "type": "string",
+            "format": "byte"
+          },
+          {
+            "name": "wordId",
+            "in": "path",
+            "description": "名言のID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "word": {
+                  "type": "string",
+                  "example": "失敗と書いて、成長と読む"
+                },
+                "genres": {
+                  "type": "string",
+                  "example": "スポーツ"
+                },
+                "nice": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "favorite": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Word not found"
+          }
+        }
+      }
+    },
+    "/words/{wordId}/favorite": {
+      "post": {
+        "summary": "お気に入りの登録",
+        "description": "指定した名言をお気に入りに登録する",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "アクセストークン",
+            "required": true,
+            "type": "string",
+            "format": "byte"
+          },
+          {
+            "name": "wordId",
+            "in": "path",
+            "description": "名言のID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "word": {
+                  "type": "string",
+                  "example": "失敗と書いて、成長と読む"
+                },
+                "genres": {
+                  "type": "string",
+                  "example": "スポーツ"
+                },
+                "nice": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "favorite": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Word not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "お気に入りの削除",
+        "description": "指定した名言のお気に入りを削除する",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "アクセストークン",
+            "required": true,
+            "type": "string",
+            "format": "byte"
+          },
+          {
+            "name": "wordId",
+            "in": "path",
+            "description": "名言のID",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "word": {
+                  "type": "string",
+                  "example": "失敗と書いて、成長と読む"
+                },
+                "genres": {
+                  "type": "string",
+                  "example": "スポーツ"
+                },
+                "nice": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "favorite": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Word not found"
+          }
+        }
+      }
+    }
+  }
+}
