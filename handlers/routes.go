@@ -8,6 +8,7 @@ import (
 
 func Router(e *echo.Echo) {
 	e.Static("/index.html", "index.html")
+	e.Static("/static/*", "static")
 	e.GET("/words", func(c echo.Context) error {
 		return c.String(http.StatusOK, "words, GET!")
 	})
