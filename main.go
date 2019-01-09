@@ -5,7 +5,7 @@ import (
 	// "net/http"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"github.com/wmsuke/backend/handlers"
+	"github.com/wmsuke/WordsOfWisdom/handlers"
 )
 
 func main() {
