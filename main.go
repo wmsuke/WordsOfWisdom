@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	// "net/http"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -22,6 +23,5 @@ func main() {
 	// host := "localhost"
 	// port := "1323"
 	// e.Start(fmt.Sprintf("%v:%v", host, port))
-	port := "80"
-	e.Start(fmt.Sprintf(":%v", port))
+	e.Start(fmt.Sprintf(":%v", os.Getenv("PORT")))
 }
