@@ -22,7 +22,6 @@ func main() {
 	// host := "localhost"
 	// port := "1323"
 	// e.Start(fmt.Sprintf("%v:%v", host, port))
-	host := ""
-	port := "443"
-	e.Start(fmt.Sprintf("%v:%v", host, port))
+	port := "80"
+	e.Start(fmt.Sprintf(":%v", port))
 }
