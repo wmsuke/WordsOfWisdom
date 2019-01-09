@@ -2,3 +2,4 @@
   root-package = "github.com/wmsuke/WordsOfWisdom"
   go-version = "go1.11.4"
   install = [ "./..." ]
+  ensure = "true"
