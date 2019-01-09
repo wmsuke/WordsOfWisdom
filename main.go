@@ -19,7 +19,10 @@ func main() {
 	handlers.Router(e)
 
 	// サーバ起動
-	host := "localhost"
-	port := "1323"
+	// host := "localhost"
+	// port := "1323"
+	// e.Start(fmt.Sprintf("%v:%v", host, port))
+	host := ""
+	port := "443"
 	e.Start(fmt.Sprintf("%v:%v", host, port))
 }
