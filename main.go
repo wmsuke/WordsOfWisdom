@@ -20,8 +20,11 @@ func main() {
 	handlers.Router(e)
 
 	// サーバ起動
-	// host := "localhost"
-	// port := "1323"
-	// e.Start(fmt.Sprintf("%v:%v", host, port))
-	e.Start(fmt.Sprintf(":%v", os.Getenv("PORT")))
+	if os.Getenv("PORT") == "" {
+		host := "localhost"
+		port := "1323"
+		e.Start(fmt.Sprintf("%v:%v", host, port))
+	} else {
+		e.Start(fmt.Sprintf(":%v", os.Getenv("PORT")))
+	}
 }
