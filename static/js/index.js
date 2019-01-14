@@ -1,39 +1,49 @@
 var vm = new Vue({
   el: 'main',
   data: {
-    back: '',
-    picture: 'https://image.flaticon.com/icons/svg/149/149992.svg',
+    word: '',
     name: '',
-    birth: '',
-    email: '',
-    phone: '',
-    nationality: '',
+    isstar: false,
+    nostar: true,
+    isnice: false,
+    nonice: true,
+    back: '',
   },
   beforeMount() {
     this.generate();
   },
   methods: {
-    generate (gender) {
+    generate (status) {
       var self = this;
 
       $.ajax({
-        url: 'https://uinames.com/api/?ext&maxlen=15' + ((gender != null && (gender == "male" || gender == "female")) ? '&gender=' + gender : ''),
+        // url: 'https://uinames.com/api/?ext&maxlen=15' + ((gender != null && (gender == "male" || gender == "female")) ? '&gender=' + gender : ''),
+        url: '/words',
+        type: 'GET',
         dataType: 'json',
         success: function(data) {
 
-          self.name = data.title + ' ' + data.name + ' ' + data.surname;
+          self.word = data.word;
 
-          self.gender = data.gender;
+          self.name = data.author;
 
-          self.birth = new Date(data.birthday.raw*1000).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }) + ' (' + data.age + ' years old)';
-
-          self.email = data.email;
-
-          self.phone = data.phone;
-
-          self.nationality = data.region;
-
-          self.picture = data.photo;
+          if(data.favorite === 1){
+            isstar = true;
+            nostar = false;
+          }
+          if(data.nice === 1){
+            isnice = true;
+            nonice = false;
+          }
+          // self.birth = new Date(data.birthday.raw*1000).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }) + ' (' + data.age + ' years old)';
+          //
+          // self.email = data.email;
+          //
+          // self.phone = data.phone;
+          //
+          // self.nationality = data.region;
+          //
+          // self.picture = data.photo;
 
 
           var color = getRandomColor();

@@ -45,8 +45,12 @@ body main .card .infos div.capitalize {
   text-transform: capitalize;
 }
 body main .card .infos div.name {
-  font-size: 150%;
+  font-size: 120%;
   font-weight: bold;
+  text-align: right;
+}
+body main .card .infos div.status {
+  text-align: right;
 }
 body main .card .infos div i {
   margin-right: 10px;

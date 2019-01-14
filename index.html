@@ -3,14 +3,20 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Random user card with Vue.js</title>
+  <title>Random word card</title>
 
 
   <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.4.1/css/all.css'>
 
       <link rel="stylesheet" href="./static/css/style.css">
 
-
+      <link rel="apple-touch-icon" sizes="180x180" href="./static/favicon/apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="./static/favicon/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="./static/favicon/favicon-16x16.png">
+      <link rel="manifest" href="./static/favicon/site.webmanifest">
+      <link rel="mask-icon" href="./static/favicon/safari-pinned-tab.svg" color="#5bbad5">
+      <meta name="msapplication-TileColor" content="#da532c">
+      <meta name="theme-color" content="#ffffff">
 </head>
 
 <body>
@@ -18,24 +24,19 @@
   <main :style="{ background: back }">
 
   <div class="card">
-
+<!--
     <img class="avatar" :src="picture">
-
+-->
     <div class="infos">
+      <div class="word">
+        {{ word }}
+      </div>
       <div class="name capitalize">
         {{ name }}
       </div>
-      <div class="birth">
-        <i class="fas fa-fw fa-birthday-cake"></i>{{ birth }}
-      </div>
-      <div class="email">
-        <i class="fas fa-fw fa-envelope"></i>{{ email }}
-      </div>
-      <div class="phone">
-        <i class="fas fa-fw fa-phone"></i>{{ phone }}
-      </div>
-      <div class="nationality capitalize">
-        <i class="fas fa-fw fa-globe-americas"></i>{{ nationality }}
+      <div class="status">
+        <i class="fa-fw fa-star" v-bind:class="{ fas: isstar, far: nostar }" @click="star()" data-text="Star"></i>
+        <i class="fa-fw fa-thumbs-up" v-bind:class="{ fas: isnice, far: nonice }" @click="nice()" data-text="Nice"></i>
       </div>
     </div>
 
@@ -43,8 +44,8 @@
 
   <div class="refresh">
     <i class="fas fa-fw fa-random" @click="generate()" data-text="Random"></i>
-    <i class="fas fa-fw fa-venus" @click="generate('female')" data-text="Female"></i>
-    <i class="fas fa-fw fa-mars" @click="generate('male')" data-text="Male"></i>
+    <i class="fas fa-fw fa-star" @click="generate('star')" data-text="Star"></i>
+    <i class="fas fa-fw fa-thumbs-up" @click="generate('nice')" data-text="Nice"></i>
   </div>
 
   <div class="copy">
