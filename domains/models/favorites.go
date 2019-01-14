@@ -1,7 +1,7 @@
 package models
 
 type Favorites struct {
-	Id     int `xorm:"not null pk autoincr INT(11)"`
-	WordId int `xorm:"not null index INT(11)"`
-	UserId int `xorm:"not null index INT(11)"`
+	ID     int `json:"id" xorm:"not null pk autoincr INT(11)"`
+	WordID int `json:"wordid" xorm:"not null index INT(11)"`
+	UserID int `json:"userid" xorm:"not null index INT(11)"`
 }
