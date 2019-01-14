@@ -25,9 +25,9 @@ var vm = new Vue({
 
           self.word = data.word;
 
-          self.name = data.name;
+          self.name = data.author;
 
-          if(data.name === 1){
+          if(data.favorite === 1){
             isstar = true;
             nostar = false;
           }
