@@ -29,8 +29,8 @@
         {{ name }}
       </div>
       <div class="status">
-        <i class="fa-fw {{star-status}} fa-star" @click="star()" data-text="Star"></i>
-        <i class="fa-fw {{nice-status}} fa-thumbs-up" @click="nice()" data-text="Nice"></i>
+        <i class="fa-fw fa-star" v-bind:class="{ fas: isstar, far: nostar }" @click="star()" data-text="Star"></i>
+        <i class="fa-fw fa-thumbs-up" v-bind:class="{ fas: isnice, far: nonice }" @click="nice()" data-text="Nice"></i>
       </div>
     </div>
 
