@@ -2,8 +2,6 @@ package models
 
 import (
 	"time"
-
-	_ "github.com/go-sql-driver/mysql"
 )
 
 type Categories struct {
