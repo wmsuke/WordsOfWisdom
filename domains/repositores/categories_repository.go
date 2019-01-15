@@ -13,11 +13,11 @@ func NewCategoryRepository() CategoryRepository {
 
 // GetByID ...
 func (m CategoryRepository) GetByID(id int) *models.Categories {
-	var category = models.Categories{ID: id}
-	has, _ := engine.Get(&category)
-	if has {
-		return &category
-	}
+	// var category = models.Categories{ID: id}
+	// has, _ := engine.Get(&category)
+	// if has {
+	// 	return &category
+	// }
 
 	return nil
 }
