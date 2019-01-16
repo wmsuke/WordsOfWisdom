@@ -1,16 +1,19 @@
 package usecase
 
 import (
+	"errors"
+	"log"
+
 	"github.com/wmsuke/WordsOfWisdom/domains/models"
 	"github.com/wmsuke/WordsOfWisdom/domains/repositores"
 )
 
 type WordUseCase interface {
-	GetWord()
+	GetWord() *models.Word
 }
 
 type wordUseCase struct {
-	repositores.WordRepository
+	WordRepository repositores.WordRepository
 }
 
 func (w *wordUseCase) getWord() (*models.Words, error) {
@@ -18,25 +21,47 @@ func (w *wordUseCase) getWord() (*models.Words, error) {
 	// ctrl.Get(1)
 
 	// wa := w.FindOne(1)
-	wa, err := w.FindOne(2)
+	// wa, err := w.FindOne(2)
+	// if err != nil {
+	// 	return nil, errors.New("DBエラー")
+	// }
+	// return wa, nil
+	was, err := w.WordRepository.FindOne(1)
+	if was == nil {
+
+	}
 	if err != nil {
-		//error log
+		return nil, errors.New("DBエラー")
+	}
+
+	wa := &models.Words{
+		Id:     1,
+		Word:   "test",
+		Author: "mark",
 	}
 	return wa, nil
-
 }
-func GetWord() *models.Word {
-	v := wordUseCase{}
-	wa, err := v.getWord()
+
+// func GetWord() *models.Word {
+func (w *wordUseCase) GetWord() (*models.Word, error) {
+	// v := wordUseCase{}
+	// wa, err := v.getWord()
+	wa, err := w.WordRepository.FindOne(1)
 	if err != nil {
-		//error log
+		log.Fatal(err)
+		return nil, errors.New("DBエラー")
 	}
 	word := &models.Word{
-		ID:     wa.ID,
+		ID:     wa.Id,
 		Word:   wa.Word,
 		Author: wa.Author,
 	}
+	// word := &models.Word{
+	// 	ID:     1,
+	// 	Word:   "test",
+	// 	Author: "mark",
+	// }
 
-	return word
+	return word, nil
 
 }
