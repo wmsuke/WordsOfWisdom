@@ -6,7 +6,8 @@ import (
 )
 
 func TestFindOne(t *testing.T) {
-	result, error := FindOne(1)
+	v := wordRepository{}
+	result, error := v.FindOne(1)
 	if error != nil {
 		t.Fatalf("failed test %#v", error)
 	}

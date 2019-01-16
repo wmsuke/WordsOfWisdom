@@ -6,11 +6,14 @@ import (
 	"github.com/wmsuke/WordsOfWisdom/domains/models"
 )
 
+type wordRepository struct {
+}
+
 type WordRepository interface {
 	FindOne(ID int) (*models.Words, error)
 }
 
-func FindOne(id int) (*models.Words, error) {
+func (wordRepository *wordRepository) FindOne(id int) (*models.Words, error) {
 	var word = models.Words{}
 	has, err := engine.Where("id = ?", id).Get(&word)
 	if err != nil {
