@@ -1,7 +1,7 @@
 package services
 
 import (
-	"github.com/wmsuke/WordsOfWisdom/domains/models"
+	"github.com/wmsuke/WordsOfWisdom/domains/repositores"
 )
 
 // Category
@@ -15,7 +15,7 @@ func NewCategory() Category {
 
 // Get
 func (c Category) Get(n int) interface{} {
-	repo := models.NewCategoryRepository()
+	repo := repositores.NewCategoryRepository()
 	user := repo.GetByID(n)
 	return user
 }
