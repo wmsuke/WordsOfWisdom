@@ -28,3 +28,11 @@ func TestGetNiceCount(t *testing.T) {
 func TestGetFavoriteCount(t *testing.T) {
 	fmt.Println(getFavoriteCount(1))
 }
+
+func TestIsFavorite(t *testing.T) {
+	fmt.Println(isFavorite(1, "abc1"))
+}
+
+func TestIsNicd(t *testing.T) {
+	fmt.Println(isNice(1, "abc1"))
+}
