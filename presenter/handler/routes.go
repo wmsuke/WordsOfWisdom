@@ -12,7 +12,7 @@ func Router(e *echo.Echo) {
 	e.Static("/static/*", "static")
 
 	e.GET("/words", func(c echo.Context) error {
-		var v usecase.WordUseCase
+		var v = usecase.NewWordUseCase()
 		return c.JSON(http.StatusOK, v.GetWord())
 	})
 	e.GET("/words/:id", func(c echo.Context) error {
