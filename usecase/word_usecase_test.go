@@ -6,7 +6,6 @@ import (
 )
 
 func TestGetWord(t *testing.T) {
-	var v WordUseCase
-	fmt.Println(v.GetWord())
-	// fmt.Println(GetWord())
+	v := wordUseCase{}
+	fmt.Println(v.GetWord(1))
 }

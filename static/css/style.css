@@ -37,6 +37,7 @@ body main .card .infos {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 body main .card .infos div:not(:last-child) {
   margin-bottom: 10px;
@@ -48,9 +49,13 @@ body main .card .infos div.name {
   font-size: 120%;
   font-weight: bold;
   text-align: right;
+  position: absolute;
+  bottom: 6px;
 }
 body main .card .infos div.status {
   text-align: right;
+  position: absolute;
+  bottom: 0;
 }
 body main .card .infos div i {
   margin-right: 10px;

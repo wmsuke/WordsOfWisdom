@@ -8,45 +8,21 @@ import (
 	"github.com/wmsuke/WordsOfWisdom/domains/repositores"
 )
 
-type WordUseCase interface {
-	GetWord() *models.Word
-}
-
 type wordUseCase struct {
-	WordRepository repositores.WordRepository
 }
 
-func (w *wordUseCase) getWord() (*models.Words, error) {
-	// ctrl := services.NewCategory()
-	// ctrl.Get(1)
-
-	// wa := w.FindOne(1)
-	// wa, err := w.FindOne(2)
-	// if err != nil {
-	// 	return nil, errors.New("DBエラー")
-	// }
-	// return wa, nil
-	was, err := w.WordRepository.FindOne(1)
-	if was == nil {
-
-	}
-	if err != nil {
-		return nil, errors.New("DBエラー")
-	}
-
-	wa := &models.Words{
-		Id:     1,
-		Word:   "test",
-		Author: "mark",
-	}
-	return wa, nil
+type WordUseCase interface {
+	GetRandomWord() *models.Word
+	GetWord(id int) *models.Word
 }
 
-// func GetWord() *models.Word {
-func (w *wordUseCase) GetWord() (*models.Word, error) {
-	// v := wordUseCase{}
-	// wa, err := v.getWord()
-	wa, err := w.WordRepository.FindOne(1)
+func NewWordUseCase() WordUseCase {
+	return &wordUseCase{}
+}
+
+func getWord(id int) (*models.Word, error) {
+	var v = repositores.NewWordRepository()
+	wa, err := v.FindOne(id)
 	if err != nil {
 		log.Fatal(err)
 		return nil, errors.New("DBエラー")
@@ -56,12 +32,35 @@ func (w *wordUseCase) GetWord() (*models.Word, error) {
 		Word:   wa.Word,
 		Author: wa.Author,
 	}
-	// word := &models.Word{
-	// 	ID:     1,
-	// 	Word:   "test",
-	// 	Author: "mark",
-	// }
 
 	return word, nil
+}
 
+func getRandomWord() (*models.Word, error) {
+	var v = repositores.NewWordRepository()
+	word, err := v.RandomOne()
+	if err != nil {
+		log.Fatal(err)
+		return nil, errors.New("DBエラー")
+	}
+
+	return word, nil
+}
+
+func (w *wordUseCase) GetWord(id int) *models.Word {
+	word, err := getWord(id)
+	if err != nil {
+		log.Fatal(err)
+		return nil
+	}
+	return word
+}
+
+func (w *wordUseCase) GetRandomWord() *models.Word {
+	word, err := getRandomWord()
+	if err != nil {
+		log.Fatal(err)
+		return nil
+	}
+	return word
 }

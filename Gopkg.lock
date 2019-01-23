@@ -10,12 +10,52 @@
   revision = "4748e29d5718c2df4028a6543edf86fd8cc0f881"
 
 [[projects]]
+  branch = "master"
+  digest = "1:fdae1c338ec6667687fb3fdbde842b3c421c930163981b5d441502b240b7f50b"
+  name = "github.com/dchest/uniuri"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "8902c56451e9b58ff940bbe5fec35d5f9c04584a"
+
+[[projects]]
   digest = "1:76dc72490af7174349349838f2fe118996381b31ea83243812a97e5a0fd5ed55"
   name = "github.com/dgrijalva/jwt-go"
   packages = ["."]
   pruneopts = "UT"
   revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
   version = "v3.2.0"
+
+[[projects]]
+  digest = "1:ec6f9bf5e274c833c911923c9193867f3f18788c461f76f05f62bb1510e0ae65"
+  name = "github.com/go-sql-driver/mysql"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "72cd26f257d44c1114970e19afddcd812016007e"
+  version = "v1.4.1"
+
+[[projects]]
+  digest = "1:436e8c1845d92384995e9c93470f639b886dbbc4b49c7babf544f9cc06361198"
+  name = "github.com/go-xorm/builder"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "03eb88feccce3e477c318ce7f6f1b386544ab20b"
+  version = "v0.3.3"
+
+[[projects]]
+  digest = "1:2679685cf653c75607079ed80ffc334e75ea30f1891e2db6ffdf10a70ee1ac53"
+  name = "github.com/go-xorm/core"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f7f8c2814882a0cb5c5f4e192b87a107da2f0a6c"
+  version = "v0.6.1"
+
+[[projects]]
+  digest = "1:4f01359acf1d4bc0aade06dcfca6f7687516f54fbf70b467fe90057c614647f5"
+  name = "github.com/go-xorm/xorm"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "1f39c590c64924f358c0d89016ac9b2bb84e9125"
+  version = "v0.7.1"
 
 [[projects]]
   branch = "master"
@@ -145,6 +185,14 @@
   revision = "82a175fd1598e8a172e58ebdf5ed262bb29129e5"
 
 [[projects]]
+  digest = "1:c25289f43ac4a68d88b02245742347c94f1e108c534dda442188015ff80669b3"
+  name = "google.golang.org/appengine"
+  packages = ["cloudsql"]
+  pruneopts = "UT"
+  revision = "e9657d882bb81064595ca3b56cbe2546bbabf7b1"
+  version = "v1.4.0"
+
+[[projects]]
   digest = "1:5f6b4da023890e325d29ac3212cada4a2ee006b108ba6c4022b8cee56fee31d1"
   name = "gopkg.in/godo.v2"
   packages = [
@@ -162,6 +210,9 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/dchest/uniuri",
+    "github.com/go-sql-driver/mysql",
+    "github.com/go-xorm/xorm",
     "github.com/labstack/echo",
     "github.com/labstack/echo/middleware",
     "gopkg.in/godo.v2",

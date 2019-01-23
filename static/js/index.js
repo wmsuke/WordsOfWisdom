@@ -8,6 +8,8 @@ var vm = new Vue({
     isnice: false,
     nonice: true,
     back: '',
+    count_star: 0,
+    count_nice: 0,
   },
   beforeMount() {
     this.generate();
@@ -24,27 +26,24 @@ var vm = new Vue({
         success: function(data) {
 
           self.word = data.word;
-
           self.name = data.author;
+          self.count_star = data.favortite;
+          self.count_nice = data.nice;
 
-          if(data.favorite === 1){
-            isstar = true;
-            nostar = false;
+          if(data.favortite_status === true){
+            self.isstar = true;
+            self.nostar = false;
+          }else{
+            self.isstar = false;
+            self.nostar = true;
           }
-          if(data.nice === 1){
-            isnice = true;
-            nonice = false;
+          if(data.nice_status === true){
+            self.isnice = true;
+            self.nonice = false;
+          }else{
+            self.isnice = false;
+            self.nonice = true;            
           }
-          // self.birth = new Date(data.birthday.raw*1000).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' }) + ' (' + data.age + ' years old)';
-          //
-          // self.email = data.email;
-          //
-          // self.phone = data.phone;
-          //
-          // self.nationality = data.region;
-          //
-          // self.picture = data.photo;
-
 
           var color = getRandomColor();
           var color1 = shadeColor(color, 40);

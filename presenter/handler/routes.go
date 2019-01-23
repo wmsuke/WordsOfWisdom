@@ -12,8 +12,8 @@ func Router(e *echo.Echo) {
 	e.Static("/static/*", "static")
 
 	e.GET("/words", func(c echo.Context) error {
-		var v usecase.WordUseCase
-		return c.JSON(http.StatusOK, v.GetWord())
+		var v = usecase.NewWordUseCase()
+		return c.JSON(http.StatusOK, v.GetRandomWord())
 	})
 	e.GET("/words/:id", func(c echo.Context) error {
 		return c.String(http.StatusOK, "words id, GET!")
