@@ -12,16 +12,17 @@ type wordUseCase struct {
 }
 
 type WordUseCase interface {
-	GetWord() *models.Word
+	GetRandomWord() *models.Word
+	GetWord(id int) *models.Word
 }
 
 func NewWordUseCase() WordUseCase {
 	return &wordUseCase{}
 }
 
-func getWord() (*models.Word, error) {
+func getWord(id int) (*models.Word, error) {
 	var v = repositores.NewWordRepository()
-	wa, err := v.FindOne(1)
+	wa, err := v.FindOne(id)
 	if err != nil {
 		log.Fatal(err)
 		return nil, errors.New("DBエラー")
@@ -35,8 +36,33 @@ func getWord() (*models.Word, error) {
 	return word, nil
 }
 
-func (w *wordUseCase) GetWord() *models.Word {
-	word, err := getWord()
+func getRandomWord() (*models.Word, error) {
+	var v = repositores.NewWordRepository()
+	wa, err := v.RandomOne()
+	if err != nil {
+		log.Fatal(err)
+		return nil, errors.New("DBエラー")
+	}
+	word := &models.Word{
+		ID:     wa.Id,
+		Word:   wa.Word,
+		Author: wa.Author,
+	}
+
+	return word, nil
+}
+
+func (w *wordUseCase) GetWord(id int) *models.Word {
+	word, err := getWord(id)
+	if err != nil {
+		log.Fatal(err)
+		return nil
+	}
+	return word
+}
+
+func (w *wordUseCase) GetRandomWord() *models.Word {
+	word, err := getRandomWord()
 	if err != nil {
 		log.Fatal(err)
 		return nil

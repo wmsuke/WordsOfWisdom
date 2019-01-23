@@ -11,6 +11,7 @@ type wordRepository struct {
 
 type WordRepository interface {
 	FindOne(ID int) (*models.Words, error)
+	RandomOne() (*models.Words, error)
 }
 
 func NewWordRepository() WordRepository {
@@ -29,4 +30,28 @@ func (wordRepository *wordRepository) FindOne(id int) (*models.Words, error) {
 	}
 
 	return nil, nil
+}
+
+func (wordRepository *wordRepository) RandomOne() (*models.Words, error) {
+	word := make([]models.Words, 0)
+	sql := `
+	SELECT s.*
+	FROM words AS s
+	INNER JOIN (
+	  SELECT CEIL(RAND() * (SELECT MAX(id) FROM words)) AS id
+	) AS tmp ON s.id >= tmp.id
+	ORDER BY s.id
+	LIMIT 1
+	`
+	err := engine.Sql(sql).Find(&word)
+	if err != nil {
+		log.Fatalf("データベースの接続に失敗しました。: %v", err)
+		return nil, err
+	}
+
+	return &models.Words{
+		Id:     word[0].Id,
+		Word:   word[0].Word,
+		Author: word[0].Author,
+	}, nil
 }

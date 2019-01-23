@@ -15,3 +15,8 @@ func TestFindOne(t *testing.T) {
 	}
 	fmt.Println(result)
 }
+
+func TestRandomOne(t *testing.T) {
+	var v = NewWordRepository()
+	fmt.Println(v.RandomOne())
+}
