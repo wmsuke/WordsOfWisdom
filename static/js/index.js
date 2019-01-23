@@ -8,6 +8,8 @@ var vm = new Vue({
     isnice: false,
     nonice: true,
     back: '',
+    count_star: 0,
+    count_nice: 0,
   },
   beforeMount() {
     this.generate();
@@ -24,8 +26,9 @@ var vm = new Vue({
         success: function(data) {
 
           self.word = data.word;
-
           self.name = data.author;
+          self.count_star = data.favortite;
+          self.count_nice = data.nice;
 
           if(data.favorite === 1){
             isstar = true;
