@@ -2,18 +2,32 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 	// "net/http"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/wmsuke/WordsOfWisdom/presenter/handler"
+	"github.com/wmsuke/WordsOfWisdom/usecase"
 )
+
+func CustomMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var v = usecase.NewCheckUseCase()
+		err := v.CheckUser(c)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusUnauthorized)
+		}
+		return next(c)
+	}
+}
 
 func main() {
 	e := echo.New()
 
 	// 全てのリクエストで差し込みたいミドルウェア（ログとか）はここ
 	e.Use(middleware.Logger())
+	e.Use(CustomMiddleware)
 	e.Use(middleware.Recover())
 
 	// ルーティング
