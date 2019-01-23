@@ -38,15 +38,10 @@ func getWord(id int) (*models.Word, error) {
 
 func getRandomWord() (*models.Word, error) {
 	var v = repositores.NewWordRepository()
-	wa, err := v.RandomOne()
+	word, err := v.RandomOne()
 	if err != nil {
 		log.Fatal(err)
 		return nil, errors.New("DBエラー")
-	}
-	word := &models.Word{
-		ID:     wa.Id,
-		Word:   wa.Word,
-		Author: wa.Author,
 	}
 
 	return word, nil

@@ -20,3 +20,11 @@ func TestRandomOne(t *testing.T) {
 	var v = NewWordRepository()
 	fmt.Println(v.RandomOne())
 }
+
+func TestGetNiceCount(t *testing.T) {
+	fmt.Println(getNiceCount(1))
+}
+
+func TestGetFavoriteCount(t *testing.T) {
+	fmt.Println(getFavoriteCount(1))
+}
