@@ -13,6 +13,10 @@ type WordRepository interface {
 	FindOne(ID int) (*models.Words, error)
 }
 
+func NewWordRepository() WordRepository {
+	return &wordRepository{}
+}
+
 func (wordRepository *wordRepository) FindOne(id int) (*models.Words, error) {
 	var word = models.Words{}
 	has, err := engine.Where("id = ?", id).Get(&word)
