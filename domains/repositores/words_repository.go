@@ -88,14 +88,10 @@ func (wordRepository *wordRepository) FindOne(id int) (*models.Words, error) {
 func (wordRepository *wordRepository) RandomOne() (*models.Word, error) {
 	word := make([]models.Words, 0)
 	sql := `
-	SELECT s.*
-	FROM words AS s
-	INNER JOIN (
-	  SELECT CEIL(RAND() * (SELECT MAX(id) FROM words)) AS id
-	) AS tmp ON s.id >= tmp.id
-	ORDER BY s.id
-	LIMIT 1
+		SELECT * FROM words
+		WHERE id=(SELECT (max(id) * random())::int FROM words);
 	`
+
 	err := engine.Sql(sql).Find(&word)
 	if err != nil {
 		log.Fatalf("%v", err)

@@ -5,11 +5,11 @@ import (
 )
 
 type Words struct {
-	Id         int       `xorm:"not null pk autoincr INT(11)"`
-	Word       string    `xorm:"not null default '' VARCHAR(1000)"`
-	Author     string    `xorm:"not null default '' VARCHAR(100)"`
-	CategoryId int       `xorm:"not null index INT(11)"`
-	Timestamp  time.Time `xorm:"not null default 'CURRENT_TIMESTAMP' TIMESTAMP"`
+	Id         int       `xorm:"not null pk autoincr INTEGER"`
+	Word       string    `xorm:"not null TEXT"`
+	Author     string    `xorm:"not null TEXT"`
+	CategoryId int       `xorm:"not null INTEGER"`
+	Timestamp  time.Time `xorm:"not null default 'now()' DATETIME"`
 }
 
 type Word struct {
