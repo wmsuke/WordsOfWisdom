@@ -15,3 +15,7 @@
 [[constraint]]
   name = "github.com/go-xorm/xorm"
   version = "0.7.1"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/rubenv/sql-migrate"
