@@ -12,7 +12,11 @@ var engine *xorm.Engine
 // init ...
 func init() {
 	var err error
-	engine, err = xorm.NewEngine("postgres", os.Getenv("DATABASE_URL"))
+	connStr := os.Getenv("DATABASE_URL")
+	if connStr == "" {
+		connStr = "postgres://dev:secret@localhost/words-dev?sslmode=disable"
+	}
+	engine, err = xorm.NewEngine("postgres", connStr)
 	if err != nil {
 		panic(err)
 	}
