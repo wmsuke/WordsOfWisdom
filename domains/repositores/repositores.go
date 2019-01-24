@@ -1,8 +1,10 @@
 package repositores
 
 import (
-	_ "github.com/go-sql-driver/mysql"
+	"os"
+
 	"github.com/go-xorm/xorm"
+	_ "github.com/lib/pq"
 )
 
 var engine *xorm.Engine
@@ -10,7 +12,7 @@ var engine *xorm.Engine
 // init ...
 func init() {
 	var err error
-	engine, err = xorm.NewEngine("mysql", "root:admin@/WordsOfWisdom")
+	engine, err = xorm.NewEngine("postgres", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		panic(err)
 	}
