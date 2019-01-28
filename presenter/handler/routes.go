@@ -7,8 +7,21 @@ import (
 	"github.com/wmsuke/WordsOfWisdom/usecase"
 )
 
+func CustomMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var v = usecase.NewCheckUseCase()
+		err := v.CheckUser(c)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusUnauthorized)
+		}
+		return next(c)
+	}
+}
+
 func Router(e *echo.Echo) {
-	e.Static("/", "index.html")
+
+	m := e.Group("", CustomMiddleware)
+	m.Static("/", "index.html")
 	e.Static("/static/*", "static")
 
 	e.GET("/words", func(c echo.Context) error {
