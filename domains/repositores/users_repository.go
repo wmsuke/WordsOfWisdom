@@ -14,10 +14,21 @@ type userRepository struct {
 
 type UserRepository interface {
 	UpdateUser(Key string) error
+	IsOne(Key string) (bool, error)
 }
 
 func NewUserRepository() UserRepository {
 	return &userRepository{}
+}
+
+func (u *userRepository) IsOne(Key string) (bool, error) {
+	var user = models.Users{}
+	has, err := engine.Where("`key` = ?", Key).Get(&user)
+	if err != nil {
+		log.Fatalf("%v", err)
+		return false, err
+	}
+	return has, nil
 }
 
 func (u *userRepository) UpdateUser(Key string) error {
