@@ -71,6 +71,7 @@ func isNice(wordID int, userKey string) (bool, error) {
 	}
 	return has, err
 }
+
 func (wordRepository *wordRepository) FindOne(id int) (*models.Words, error) {
 	var word = models.Words{}
 	has, err := engine.Where("id = ?", id).Get(&word)
