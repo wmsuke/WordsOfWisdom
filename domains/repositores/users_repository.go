@@ -23,7 +23,7 @@ func NewUserRepository() UserRepository {
 
 func (u *userRepository) IsOne(Key string) (bool, error) {
 	var user = models.Users{}
-	has, err := engine.Where("`key` = ?", Key).Get(&user)
+	has, err := engine.Where("`key` = ?", Key).Exist(&user)
 	if err != nil {
 		log.Fatalf("%v", err)
 		return false, err

@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"errors"
+	"log"
 	"net/http"
 	"time"
 
@@ -23,7 +24,11 @@ func NewCheckUseCase() CheckUseCase {
 }
 
 func (u *checkUseCase) CheckUserKey(c echo.Context) error {
-	cookie, _ := c.Cookie("words_userkey")
+	cookie, err := c.Cookie("words_userkey")
+	if err != nil {
+		log.Fatal(err)
+		return nil
+	}
 	var v = repositores.NewUserRepository()
 	has, nil := v.IsOne(cookie.Value)
 	if has {
@@ -35,8 +40,8 @@ func (u *checkUseCase) CheckUserKey(c echo.Context) error {
 
 func (u *checkUseCase) CheckUser(c echo.Context) error {
 	cookie, err := c.Cookie("words_userkey")
-	key := cookie.Value
-	if len(key) == 0 {
+	key := ""
+	if err != nil {
 		key = random()
 		if err != nil {
 			cookie = new(http.Cookie)
@@ -45,6 +50,8 @@ func (u *checkUseCase) CheckUser(c echo.Context) error {
 			cookie.Expires = time.Now().Add(744 * time.Hour)
 			c.SetCookie(cookie)
 		}
+	} else {
+		key = cookie.Value
 	}
 	var v = repositores.NewUserRepository()
 	v.UpdateUser(key)
