@@ -1,6 +1,7 @@
 var vm = new Vue({
   el: 'main',
   data: {
+    id: '',
     word: '',
     name: '',
     isstar: false,
@@ -15,7 +16,28 @@ var vm = new Vue({
     this.generate();
   },
   methods: {
-    generate (status) {
+    star() {
+      var self = this;
+      if (self.isstar == false) {
+        console.log("click");
+        $.ajax({
+          url: '/words/' + self.id + '/favorite',
+          type: 'POST',
+          dataType: 'json',
+          success: function(data) {
+            self.count_star = data.favortite;
+            if (data.favortite_status === true) {
+              self.isstar = true;
+              self.nostar = false;
+            } else {
+              self.isstar = false;
+              self.nostar = true;
+            }
+          }
+        });
+      }
+    },
+    generate(status) {
       var self = this;
 
       $.ajax({
@@ -25,24 +47,25 @@ var vm = new Vue({
         dataType: 'json',
         success: function(data) {
 
+          self.id = data.id;
           self.word = data.word;
           self.name = data.author;
           self.count_star = data.favortite;
           self.count_nice = data.nice;
 
-          if(data.favortite_status === true){
+          if (data.favortite_status === true) {
             self.isstar = true;
             self.nostar = false;
-          }else{
+          } else {
             self.isstar = false;
             self.nostar = true;
           }
-          if(data.nice_status === true){
+          if (data.nice_status === true) {
             self.isnice = true;
             self.nonice = false;
-          }else{
+          } else {
             self.isnice = false;
-            self.nonice = true;            
+            self.nonice = true;
           }
 
           var color = getRandomColor();
@@ -60,8 +83,10 @@ function getRandomColor() {
   var brightness = 4;
 
   var rgb = [Math.random() * 256, Math.random() * 256, Math.random() * 256];
-  var mix = [brightness*51, brightness*51, brightness*51]; //51 => 255/5
-  var mixedrgb = [rgb[0] + mix[0], rgb[1] + mix[1], rgb[2] + mix[2]].map(function(x){ return Math.round(x/2.0)})
+  var mix = [brightness * 51, brightness * 51, brightness * 51]; //51 => 255/5
+  var mixedrgb = [rgb[0] + mix[0], rgb[1] + mix[1], rgb[2] + mix[2]].map(function(x) {
+    return Math.round(x / 2.0)
+  })
   return rgbToHex(mixedrgb[0], mixedrgb[1], mixedrgb[2]);
 }
 
