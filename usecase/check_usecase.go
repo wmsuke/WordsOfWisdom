@@ -31,7 +31,6 @@ func (u *checkUseCase) CheckUserKey(c echo.Context) error {
 	} else {
 		return errors.New("キーが存在しない")
 	}
-	return nil
 }
 
 func (u *checkUseCase) CheckUser(c echo.Context) error {
