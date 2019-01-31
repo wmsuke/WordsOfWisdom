@@ -38,7 +38,7 @@ func Router(e *echo.Echo) {
 	c := e.Group("", CheckUserKey)
 	c.GET("/words", func(c echo.Context) error {
 		var v = usecase.NewWordUseCase()
-		return c.JSON(http.StatusOK, v.GetRandomWord())
+		return c.JSON(http.StatusOK, v.GetRandomWord(c))
 	})
 	c.GET("/words/:id", func(c echo.Context) error {
 		return c.String(http.StatusOK, "words id, GET!")

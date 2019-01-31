@@ -1,5 +1,55 @@
 package services
 
-type XxxService interface {
-	DoSomething(ID int) error
+import (
+	"errors"
+	"log"
+
+	"github.com/wmsuke/WordsOfWisdom/domains/models"
+	"github.com/wmsuke/WordsOfWisdom/domains/repositores"
+)
+
+type wordServices struct {
+}
+
+type WordServices interface {
+	GetWord(id int) (*models.Word, error)
+	GetRandomWord(key string) (*models.Word, error)
+}
+
+func NewWordServices() WordServices {
+	return &wordServices{}
+}
+
+func (w *wordServices) GetWord(id int) (*models.Word, error) {
+	var v = repositores.NewWordRepository()
+	wa, err := v.FindOne(id)
+	if err != nil {
+		log.Fatal(err)
+		return nil, errors.New("DBエラー")
+	}
+	word := &models.Word{
+		ID:     wa.Id,
+		Word:   wa.Word,
+		Author: wa.Author,
+	}
+
+	return word, nil
+}
+
+func (w *wordServices) GetRandomWord(key string) (*models.Word, error) {
+	var u = repositores.NewUserRepository()
+	user, err := u.FindOne(key)
+	if err != nil {
+		log.Fatalf("%v", err)
+		return nil, err
+	}
+
+	var v = repositores.NewWordRepository()
+	word, err := v.RandomOne(user.Id)
+	if err != nil {
+		log.Fatal(err)
+		return nil, errors.New("DBエラー")
+	}
+
+	return word, nil
 }

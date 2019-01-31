@@ -11,7 +11,7 @@ type wordRepository struct {
 
 type WordRepository interface {
 	FindOne(ID int) (*models.Words, error)
-	RandomOne() (*models.Word, error)
+	RandomOne(userId int) (*models.Word, error)
 }
 
 func NewWordRepository() WordRepository {
@@ -86,7 +86,7 @@ func (wordRepository *wordRepository) FindOne(id int) (*models.Words, error) {
 	return nil, nil
 }
 
-func (wordRepository *wordRepository) RandomOne() (*models.Word, error) {
+func (wordRepository *wordRepository) RandomOne(userId int) (*models.Word, error) {
 	word := make([]models.Words, 0)
 	sql := `
 		SELECT * FROM words
