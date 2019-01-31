@@ -47,7 +47,8 @@ func Router(e *echo.Echo) {
 		return c.String(http.StatusOK, "words id, nice!")
 	})
 	c.POST("/words/:id/favorite", func(c echo.Context) error {
-		return c.String(http.StatusOK, "words id, favorite!")
+		var v = usecase.NewAddFavoriteUseCase()
+		return c.JSON(http.StatusOK, v.Add(c, c.Param("id")))
 	})
 	c.DELETE("/words/:id/favorite", func(c echo.Context) error {
 		return c.String(http.StatusOK, "words id, favorite delete!")
