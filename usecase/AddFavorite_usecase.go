@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"log"
+	"strconv"
 
 	"github.com/labstack/echo"
 	"github.com/wmsuke/WordsOfWisdom/domains/services"
@@ -25,5 +26,6 @@ func (u *addFavoriteUseCase) Add(c echo.Context, wordId string) error {
 		return nil
 	}
 	var v = services.NewAddFavoriteServices()
-	return v.Add(wordId, cookie.Value)
+	tmpId, _ := strconv.Atoi(wordId)
+	return v.Add(tmpId, cookie.Value)
 }
