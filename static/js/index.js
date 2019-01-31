@@ -19,7 +19,6 @@ var vm = new Vue({
     star() {
       var self = this;
       if (self.isstar == false) {
-        console.log("click");
         $.ajax({
           url: '/words/' + self.id + '/favorite',
           type: 'POST',
