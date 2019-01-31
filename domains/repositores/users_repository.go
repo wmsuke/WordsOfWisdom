@@ -43,15 +43,8 @@ func (u *userRepository) FindOne(Key string) (*models.Users, error) {
 }
 
 func (u *userRepository) UpdateUser(Key string) error {
-	var user = models.Users{}
-	_, err := engine.Where("`key` = ?", Key).Delete(&user)
-	if err != nil {
-		log.Fatalf("%v", err)
-		return err
-	}
-	user.Key = Key
-	user.AccessDate = time.Now()
-	_, err = engine.Insert(&user)
+	var user = models.Users{Key: Key, AccessDate: time.Now()}
+	_, err := engine.Where("`key` = ?", Key).Update(&user)
 	if err != nil {
 		log.Fatalf("%v", err)
 		return err
