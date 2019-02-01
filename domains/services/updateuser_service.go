@@ -27,8 +27,10 @@ func (a *updateUserServices) Update(key string) error {
 
 	if has {
 		err = v.UpdateUser(key)
-		log.Fatalf("%v", err)
-		return err
+		if err != nil {
+			log.Fatalf("%v", err)
+			return err
+		}
 	} else {
 		err = v.InsertUser(key)
 		if err != nil {
