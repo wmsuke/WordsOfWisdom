@@ -25,13 +25,8 @@ func NewCheckUseCase() CheckUseCase {
 }
 
 func (u *checkUseCase) CheckUserKey(c echo.Context) error {
-	cookie, err := c.Cookie("words_userkey")
-	if err != nil {
-		log.Fatal(err)
-		return nil
-	}
 	var v = repositores.NewUserRepository()
-	has, nil := v.IsOne(cookie.Value)
+	has, nil := v.IsOne(getCookieValue(c))
 	if has {
 		return nil
 	} else {

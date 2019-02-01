@@ -21,14 +21,8 @@ func NewWordUseCase() WordUseCase {
 }
 
 func (w *wordUseCase) GetWord(c echo.Context, wordId int) *models.Word {
-	cookie, err := c.Cookie("words_userkey")
-	if err != nil {
-		log.Fatal(err)
-		return nil
-	}
-
 	var v = services.NewWordServices()
-	word, err := v.GetWord(wordId, cookie.Value)
+	word, err := v.GetWord(wordId, getCookieValue(c))
 	if err != nil {
 		log.Fatal(err)
 		return nil
@@ -37,14 +31,8 @@ func (w *wordUseCase) GetWord(c echo.Context, wordId int) *models.Word {
 }
 
 func (w *wordUseCase) GetRandomWord(c echo.Context) *models.Word {
-	cookie, err := c.Cookie("words_userkey")
-	if err != nil {
-		log.Fatal(err)
-		return nil
-	}
-
 	var v = services.NewWordServices()
-	word, err := v.GetRandomWord(cookie.Value)
+	word, err := v.GetRandomWord(getCookieValue(c))
 	if err != nil {
 		log.Fatal(err)
 		return nil
