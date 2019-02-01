@@ -9,6 +9,7 @@ import (
 	"github.com/dchest/uniuri"
 	"github.com/labstack/echo"
 	"github.com/wmsuke/WordsOfWisdom/domains/repositores"
+	"github.com/wmsuke/WordsOfWisdom/domains/services"
 )
 
 type checkUseCase struct {
@@ -53,8 +54,13 @@ func (u *checkUseCase) CheckUser(c echo.Context) error {
 	} else {
 		key = cookie.Value
 	}
-	var v = repositores.NewUserRepository()
-	v.UpdateUser(key)
+	var v = services.NewUpdateUserServices()
+	err = v.Update(key)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+
 	return nil
 }
 
