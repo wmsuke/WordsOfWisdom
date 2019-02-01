@@ -41,12 +41,11 @@ func getFavoriteCount(wordID int) (int64, error) {
 func isFavorite(wordID int, userId int) (bool, error) {
 	var favorite = models.Favorites{WordId: wordID, UserId: userId}
 	has, err := engine.Exist(&favorite)
-
 	if err != nil {
 		log.Fatalf("%v", err)
 		return false, err
 	}
-	return has, err
+	return has, nil
 }
 
 func isNice(wordID int, userId int) (bool, error) {
@@ -56,7 +55,7 @@ func isNice(wordID int, userId int) (bool, error) {
 		log.Fatalf("%v", err)
 		return false, err
 	}
-	return has, err
+	return has, nil
 }
 
 func (wordRepository *wordRepository) FindOne(wordId int, userId int) (*models.Word, error) {
