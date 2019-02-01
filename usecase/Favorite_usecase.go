@@ -9,18 +9,18 @@ import (
 	"github.com/wmsuke/WordsOfWisdom/domains/services"
 )
 
-type addFavoriteUseCase struct {
+type favoriteUseCase struct {
 }
 
-type AddFavoriteUseCase interface {
+type FavoriteUseCase interface {
 	Add(c echo.Context, wordId string) *models.Word
 }
 
-func NewAddFavoriteUseCase() AddFavoriteUseCase {
-	return &addFavoriteUseCase{}
+func NewFavoriteUseCase() FavoriteUseCase {
+	return &favoriteUseCase{}
 }
 
-func (u *addFavoriteUseCase) Add(c echo.Context, wordId string) *models.Word {
+func (u *favoriteUseCase) Add(c echo.Context, wordId string) *models.Word {
 	cookie, err := c.Cookie("words_userkey")
 	if err != nil {
 		log.Fatal(err)
