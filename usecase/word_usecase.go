@@ -13,16 +13,22 @@ type wordUseCase struct {
 
 type WordUseCase interface {
 	GetRandomWord(c echo.Context) *models.Word
-	GetWord(id int) *models.Word
+	GetWord(c echo.Context, wordId int) *models.Word
 }
 
 func NewWordUseCase() WordUseCase {
 	return &wordUseCase{}
 }
 
-func (w *wordUseCase) GetWord(id int) *models.Word {
+func (w *wordUseCase) GetWord(c echo.Context, wordId int) *models.Word {
+	cookie, err := c.Cookie("words_userkey")
+	if err != nil {
+		log.Fatal(err)
+		return nil
+	}
+
 	var v = services.NewWordServices()
-	word, err := v.GetWord(id)
+	word, err := v.GetWord(wordId, cookie.Value)
 	if err != nil {
 		log.Fatal(err)
 		return nil

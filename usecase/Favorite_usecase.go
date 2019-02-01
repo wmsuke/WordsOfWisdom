@@ -30,5 +30,5 @@ func (u *favoriteUseCase) Add(c echo.Context, wordId string) *models.Word {
 	tmpId, _ := strconv.Atoi(wordId)
 	v.Add(tmpId, cookie.Value)
 
-	return NewWordUseCase().GetWord(tmpId)
+	return NewWordUseCase().GetWord(c, tmpId)
 }
