@@ -113,8 +113,7 @@ func (wordRepository *wordRepository) RandomOne(userId int) (*models.Word, error
 		WHERE id=(SELECT (max(id) * random())::int FROM words);
 	`
 
-	err := engine.Sql(sql).Find(&word)
-	if err != nil {
+	if err := engine.Sql(sql).Find(&word); err != nil {
 		log.Fatalf("%v", err)
 		return nil, err
 	}
