@@ -34,6 +34,22 @@ var vm = new Vue({
             }
           }
         });
+      }else{
+        $.ajax({
+          url: '/words/' + self.id + '/favorite',
+          type: 'DELETE',
+          dataType: 'json',
+          success: function(data) {
+            self.count_star = data.favortite;
+            if (data.favortite_status === true) {
+              self.isstar = true;
+              self.nostar = false;
+            } else {
+              self.isstar = false;
+              self.nostar = true;
+            }
+          }
+        });
       }
     },
     generate(status) {
