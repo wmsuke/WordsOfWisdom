@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo"
 	"github.com/wmsuke/WordsOfWisdom/usecase"
@@ -29,6 +31,10 @@ func CheckUserKey(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
+func validateId(id string) (int, error) {
+	return strconv.Atoi(id)
+}
+
 func Router(e *echo.Echo) {
 
 	m := e.Group("", UpdateUserKey)
@@ -47,11 +53,21 @@ func Router(e *echo.Echo) {
 		return c.String(http.StatusOK, "words id, nice!")
 	})
 	c.POST("/words/:id/favorite", func(c echo.Context) error {
+		id, err := validateId(c.Param("id"))
+		if err != nil {
+			log.Fatal(err)
+			return nil
+		}
 		var v = usecase.NewFavoriteUseCase()
-		return c.JSON(http.StatusOK, v.Add(c, c.Param("id")))
+		return c.JSON(http.StatusOK, v.Add(c, id))
 	})
 	c.DELETE("/words/:id/favorite", func(c echo.Context) error {
+		id, err := validateId(c.Param("id"))
+		if err != nil {
+			log.Fatal(err)
+			return nil
+		}
 		var v = usecase.NewFavoriteUseCase()
-		return c.JSON(http.StatusOK, v.Delete(c, c.Param("id")))
+		return c.JSON(http.StatusOK, v.Delete(c, id))
 	})
 }
