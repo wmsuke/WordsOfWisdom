@@ -1,54 +1,28 @@
 package usecase
 
 import (
-	"errors"
 	"log"
 
+	"github.com/labstack/echo"
 	"github.com/wmsuke/WordsOfWisdom/domains/models"
-	"github.com/wmsuke/WordsOfWisdom/domains/repositores"
+	"github.com/wmsuke/WordsOfWisdom/domains/services"
 )
 
 type wordUseCase struct {
 }
 
 type WordUseCase interface {
-	GetRandomWord() *models.Word
-	GetWord(id int) *models.Word
+	GetRandomWord(c echo.Context) *models.Word
+	GetWord(c echo.Context, wordId int) *models.Word
 }
 
 func NewWordUseCase() WordUseCase {
 	return &wordUseCase{}
 }
 
-func getWord(id int) (*models.Word, error) {
-	var v = repositores.NewWordRepository()
-	wa, err := v.FindOne(id)
-	if err != nil {
-		log.Fatal(err)
-		return nil, errors.New("DBエラー")
-	}
-	word := &models.Word{
-		ID:     wa.Id,
-		Word:   wa.Word,
-		Author: wa.Author,
-	}
-
-	return word, nil
-}
-
-func getRandomWord() (*models.Word, error) {
-	var v = repositores.NewWordRepository()
-	word, err := v.RandomOne()
-	if err != nil {
-		log.Fatal(err)
-		return nil, errors.New("DBエラー")
-	}
-
-	return word, nil
-}
-
-func (w *wordUseCase) GetWord(id int) *models.Word {
-	word, err := getWord(id)
+func (w *wordUseCase) GetWord(c echo.Context, wordId int) *models.Word {
+	var v = services.NewWordServices()
+	word, err := v.GetWord(wordId, getCookieValue(c))
 	if err != nil {
 		log.Fatal(err)
 		return nil
@@ -56,8 +30,9 @@ func (w *wordUseCase) GetWord(id int) *models.Word {
 	return word
 }
 
-func (w *wordUseCase) GetRandomWord() *models.Word {
-	word, err := getRandomWord()
+func (w *wordUseCase) GetRandomWord(c echo.Context) *models.Word {
+	var v = services.NewWordServices()
+	word, err := v.GetRandomWord(getCookieValue(c))
 	if err != nil {
 		log.Fatal(err)
 		return nil

@@ -9,6 +9,7 @@ import (
 	"github.com/dchest/uniuri"
 	"github.com/labstack/echo"
 	"github.com/wmsuke/WordsOfWisdom/domains/repositores"
+	"github.com/wmsuke/WordsOfWisdom/domains/services"
 )
 
 type checkUseCase struct {
@@ -24,13 +25,8 @@ func NewCheckUseCase() CheckUseCase {
 }
 
 func (u *checkUseCase) CheckUserKey(c echo.Context) error {
-	cookie, err := c.Cookie("words_userkey")
-	if err != nil {
-		log.Fatal(err)
-		return nil
-	}
 	var v = repositores.NewUserRepository()
-	has, nil := v.IsOne(cookie.Value)
+	has, nil := v.IsOne(getCookieValue(c))
 	if has {
 		return nil
 	} else {
@@ -53,8 +49,13 @@ func (u *checkUseCase) CheckUser(c echo.Context) error {
 	} else {
 		key = cookie.Value
 	}
-	var v = repositores.NewUserRepository()
-	v.UpdateUser(key)
+	var v = services.NewUpdateUserServices()
+	err = v.Update(key)
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+
 	return nil
 }
 

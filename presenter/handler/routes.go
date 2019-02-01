@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo"
 	"github.com/wmsuke/WordsOfWisdom/usecase"
@@ -29,6 +31,10 @@ func CheckUserKey(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
+func validateId(id string) (int, error) {
+	return strconv.Atoi(id)
+}
+
 func Router(e *echo.Echo) {
 
 	m := e.Group("", UpdateUserKey)
@@ -38,19 +44,51 @@ func Router(e *echo.Echo) {
 	c := e.Group("", CheckUserKey)
 	c.GET("/words", func(c echo.Context) error {
 		var v = usecase.NewWordUseCase()
-		return c.JSON(http.StatusOK, v.GetRandomWord())
+		return c.JSON(http.StatusOK, v.GetRandomWord(c))
 	})
 	c.GET("/words/:id", func(c echo.Context) error {
-		return c.String(http.StatusOK, "words id, GET!")
+		id, err := validateId(c.Param("id"))
+		if err != nil {
+			log.Fatal(err)
+			return nil
+		}
+		var v = usecase.NewWordUseCase()
+		return c.JSON(http.StatusOK, v.GetWord(c, id))
 	})
-	c.PUT("/words/:id/nice", func(c echo.Context) error {
-		return c.String(http.StatusOK, "words id, nice!")
+	c.POST("/words/:id/nice", func(c echo.Context) error {
+		id, err := validateId(c.Param("id"))
+		if err != nil {
+			log.Fatal(err)
+			return nil
+		}
+		var v = usecase.NewNiceUseCase()
+		return c.JSON(http.StatusOK, v.Add(c, id))
+	})
+	c.DELETE("/words/:id/nice", func(c echo.Context) error {
+		id, err := validateId(c.Param("id"))
+		if err != nil {
+			log.Fatal(err)
+			return nil
+		}
+		var v = usecase.NewNiceUseCase()
+		return c.JSON(http.StatusOK, v.Delete(c, id))
 	})
 	c.POST("/words/:id/favorite", func(c echo.Context) error {
-		var v = usecase.NewAddFavoriteUseCase()
-		return c.JSON(http.StatusOK, v.Add(c, c.Param("id")))
+		id, err := validateId(c.Param("id"))
+		if err != nil {
+			log.Fatal(err)
+			return nil
+		}
+		var v = usecase.NewFavoriteUseCase()
+		return c.JSON(http.StatusOK, v.Add(c, id))
 	})
 	c.DELETE("/words/:id/favorite", func(c echo.Context) error {
-		return c.String(http.StatusOK, "words id, favorite delete!")
+		id, err := validateId(c.Param("id"))
+		if err != nil {
+			log.Fatal(err)
+			return nil
+		}
+		var v = usecase.NewFavoriteUseCase()
+		return c.JSON(http.StatusOK, v.Delete(c, id))
 	})
 }

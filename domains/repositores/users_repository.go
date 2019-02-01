@@ -16,6 +16,7 @@ type UserRepository interface {
 	UpdateUser(Key string) error
 	IsOne(Key string) (bool, error)
 	FindOne(Key string) (*models.Users, error)
+	InsertUser(Key string) error
 }
 
 func NewUserRepository() UserRepository {
@@ -45,6 +46,16 @@ func (u *userRepository) FindOne(Key string) (*models.Users, error) {
 func (u *userRepository) UpdateUser(Key string) error {
 	var user = models.Users{Key: Key, AccessDate: time.Now()}
 	_, err := engine.Where("`key` = ?", Key).Update(&user)
+	if err != nil {
+		log.Fatalf("%v", err)
+		return err
+	}
+	return nil
+}
+
+func (u *userRepository) InsertUser(Key string) error {
+	var user = models.Users{Key: Key, AccessDate: time.Now()}
+	_, err := engine.Insert(&user)
 	if err != nil {
 		log.Fatalf("%v", err)
 		return err

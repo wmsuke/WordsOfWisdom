@@ -34,6 +34,58 @@ var vm = new Vue({
             }
           }
         });
+      }else{
+        $.ajax({
+          url: '/words/' + self.id + '/favorite',
+          type: 'DELETE',
+          dataType: 'json',
+          success: function(data) {
+            self.count_star = data.favortite;
+            if (data.favortite_status === true) {
+              self.isstar = true;
+              self.nostar = false;
+            } else {
+              self.isstar = false;
+              self.nostar = true;
+            }
+          }
+        });
+      }
+    },
+    nice() {
+      var self = this;
+      if (self.isnice == false) {
+        $.ajax({
+          url: '/words/' + self.id + '/nice',
+          type: 'POST',
+          dataType: 'json',
+          success: function(data) {
+            self.count_nice = data.nice;
+            if (data.nice_status === true) {
+              self.isnice = true;
+              self.nonice = false;
+            } else {
+              self.isnice = false;
+              self.nonice = true;
+            }
+          }
+        });
+      }else{
+        $.ajax({
+          url: '/words/' + self.id + '/nice',
+          type: 'DELETE',
+          dataType: 'json',
+          success: function(data) {
+            self.count_nice = data.nice;
+            if (data.nice_status === true) {
+              self.isnice = true;
+              self.nonice = false;
+            } else {
+              self.isnice = false;
+              self.nonice = true;
+            }
+          }
+        });
       }
     },
     generate(status) {
