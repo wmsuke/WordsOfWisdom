@@ -52,6 +52,42 @@ var vm = new Vue({
         });
       }
     },
+    nice() {
+      var self = this;
+      if (self.isnice == false) {
+        $.ajax({
+          url: '/words/' + self.id + '/nice',
+          type: 'POST',
+          dataType: 'json',
+          success: function(data) {
+            self.count_nice = data.nice;
+            if (data.nice_status === true) {
+              self.isnice = true;
+              self.nonice = false;
+            } else {
+              self.isnice = false;
+              self.nonice = true;
+            }
+          }
+        });
+      }else{
+        $.ajax({
+          url: '/words/' + self.id + '/nice',
+          type: 'DELETE',
+          dataType: 'json',
+          success: function(data) {
+            self.count_nice = data.nice;
+            if (data.nice_status === true) {
+              self.isnice = true;
+              self.nonice = false;
+            } else {
+              self.isnice = false;
+              self.nonice = true;
+            }
+          }
+        });
+      }
+    },
     generate(status) {
       var self = this;
 

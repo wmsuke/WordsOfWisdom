@@ -49,8 +49,23 @@ func Router(e *echo.Echo) {
 	c.GET("/words/:id", func(c echo.Context) error {
 		return c.String(http.StatusOK, "words id, GET!")
 	})
-	c.PUT("/words/:id/nice", func(c echo.Context) error {
-		return c.String(http.StatusOK, "words id, nice!")
+	c.POST("/words/:id/nice", func(c echo.Context) error {
+		id, err := validateId(c.Param("id"))
+		if err != nil {
+			log.Fatal(err)
+			return nil
+		}
+		var v = usecase.NewNiceUseCase()
+		return c.JSON(http.StatusOK, v.Add(c, id))
+	})
+	c.DELETE("/words/:id/nice", func(c echo.Context) error {
+		id, err := validateId(c.Param("id"))
+		if err != nil {
+			log.Fatal(err)
+			return nil
+		}
+		var v = usecase.NewNiceUseCase()
+		return c.JSON(http.StatusOK, v.Delete(c, id))
 	})
 	c.POST("/words/:id/favorite", func(c echo.Context) error {
 		id, err := validateId(c.Param("id"))
