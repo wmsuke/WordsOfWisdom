@@ -60,92 +60,73 @@ func isNice(wordID int, userId int) (bool, error) {
 }
 
 func (wordRepository *wordRepository) FindOne(wordId int, userId int) (*models.Word, error) {
-	var word = models.Words{}
-	has, err := engine.Where("id = ?", wordId).Get(&word)
+	var words = models.Words{}
+	has, err := engine.Where("id = ?", wordId).Get(&words)
 	if err != nil {
 		log.Fatalf("%v", err)
 		return nil, err
 	}
 	if has {
-		niceCount, err := getNiceCount(word.Id)
+		word, err := generateWordModels(words, userId)
 		if err != nil {
 			log.Fatalf("%v", err)
 			return nil, err
 		}
-
-		favoriteCount, err := getFavoriteCount(word.Id)
-		if err != nil {
-			log.Fatalf("%v", err)
-			return nil, err
-		}
-
-		favoriteStatus, err := isFavorite(word.Id, userId)
-		if err != nil {
-			log.Fatalf("%v", err)
-			return nil, err
-		}
-
-		niceStatus, err := isNice(word.Id, userId)
-		if err != nil {
-			log.Fatalf("%v", err)
-			return nil, err
-		}
-
-		return &models.Word{
-			ID:              word.Id,
-			Word:            word.Word,
-			Author:          word.Author,
-			Nice:            niceCount,
-			Favortite:       favoriteCount,
-			NiceStatus:      niceStatus,
-			FavortiteStatus: favoriteStatus,
-		}, nil
-
+		return word, nil
 	}
 
 	return nil, nil
 }
 
 func (wordRepository *wordRepository) RandomOne(userId int) (*models.Word, error) {
-	word := make([]models.Words, 0)
+	words := make([]models.Words, 0)
 	sql := `
 		SELECT * FROM words
 		WHERE id=(SELECT (max(id) * random())::int FROM words);
 	`
 
-	if err := engine.Sql(sql).Find(&word); err != nil {
+	if err := engine.Sql(sql).Find(&words); err != nil {
 		log.Fatalf("%v", err)
 		return nil, err
 	}
 
-	niceCount, err := getNiceCount(word[0].Id)
+	word, err := generateWordModels(words[0], userId)
+	if err != nil {
+		log.Fatalf("%v", err)
+		return nil, err
+	}
+	return word, nil
+}
+
+func generateWordModels(word models.Words, userId int) (*models.Word, error) {
+	niceCount, err := getNiceCount(word.Id)
 	if err != nil {
 		log.Fatalf("%v", err)
 		return nil, err
 	}
 
-	favoriteCount, err := getFavoriteCount(word[0].Id)
+	favoriteCount, err := getFavoriteCount(word.Id)
 	if err != nil {
 		log.Fatalf("%v", err)
 		return nil, err
 	}
 
-	favoriteStatus, err := isFavorite(word[0].Id, userId)
+	favoriteStatus, err := isFavorite(word.Id, userId)
 	if err != nil {
 		log.Fatalf("%v", err)
 		return nil, err
 	}
 
-	niceStatus, err := isNice(word[0].Id, userId)
+	niceStatus, err := isNice(word.Id, userId)
 	if err != nil {
 		log.Fatalf("%v", err)
 		return nil, err
 	}
 
 	return &models.Word{
-		ID:              word[0].Id,
-		Word:            word[0].Word,
-		Author:          word[0].Author,
+		ID:              word.Id,
+		Word:            word.Word,
+		Author:          word.Author,
 		Nice:            niceCount,
 		Favortite:       favoriteCount,
 		NiceStatus:      niceStatus,
