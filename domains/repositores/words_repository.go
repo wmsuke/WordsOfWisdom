@@ -40,7 +40,6 @@ func getFavoriteCount(wordID int) (int64, error) {
 
 func isFavorite(wordID int, userId int) (bool, error) {
 	var favorite = models.Favorites{WordId: wordID, UserId: userId}
-	//	has, err := engine.Where("id = ?", id).Get(&favorite)
 	has, err := engine.Exist(&favorite)
 
 	if err != nil {
@@ -51,15 +50,6 @@ func isFavorite(wordID int, userId int) (bool, error) {
 }
 
 func isNice(wordID int, userId int) (bool, error) {
-	// sql := `
-	// SELECT *
-	// FROM nices AS n
-	// INNER JOIN users AS u
-	// ON n.user_id = u.id
-	// WHERE n.word_id = ?
-	// AND u.key = ?
-	// `
-	// has, err := engine.SQL(sql, wordID, userKey).Exist()
 	var nice = models.Nices{WordId: wordID, UserId: userId}
 	has, err := engine.Exist(&nice)
 	if err != nil {
