@@ -39,6 +39,8 @@ func Router(e *echo.Echo) {
 
 	m := e.Group("", UpdateUserKey)
 	m.Static("/", "index.html")
+	m.Static("/test_form.html", "test_form.html")
+	m.Static("/test_complete.html", "test_complete.html")
 	e.Static("/static/*", "static")
 
 	c := e.Group("", CheckUserKey)
