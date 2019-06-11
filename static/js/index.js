@@ -96,6 +96,9 @@ var vm = new Vue({
         url: '/words',
         type: 'GET',
         dataType: 'json',
+        data: {
+          status: status
+        },
         success: function(data) {
 
           self.id = data.id;

@@ -12,6 +12,7 @@ type wordRepository struct {
 type WordRepository interface {
 	FindOne(wordId int, userId int) (*models.Word, error)
 	RandomOne(userId int) (*models.Word, error)
+	FavoriteRandomOne(userId int) (*models.Word, error)
 }
 
 func NewWordRepository() WordRepository {
@@ -78,6 +79,26 @@ func (wordRepository *wordRepository) FindOne(wordId int, userId int) (*models.W
 }
 
 func (wordRepository *wordRepository) RandomOne(userId int) (*models.Word, error) {
+	words := make([]models.Words, 0)
+	sql := `
+		SELECT * FROM words
+		WHERE id=(SELECT (max(id) * random())::int FROM words);
+	`
+
+	if err := engine.Sql(sql).Find(&words); err != nil {
+		log.Fatalf("%v", err)
+		return nil, err
+	}
+
+	word, err := generateWordModels(words[0], userId)
+	if err != nil {
+		log.Fatalf("%v", err)
+		return nil, err
+	}
+	return word, nil
+}
+
+func (wordRepository *wordRepository) FavoriteRandomOne(userId int) (*models.Word, error) {
 	words := make([]models.Words, 0)
 	sql := `
 		SELECT * FROM words
