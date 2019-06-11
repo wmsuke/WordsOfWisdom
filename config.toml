@@ -1,0 +1,6 @@
+[SEVER]
+host = "localhost"
+port = 1323
+
+[DB]
+connection = "postgres://dev:secret@localhost/dev?sslmode=disable"
