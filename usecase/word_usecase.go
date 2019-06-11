@@ -32,10 +32,24 @@ func (w *wordUseCase) GetWord(c echo.Context, wordId int) *models.Word {
 
 func (w *wordUseCase) GetRandomWord(c echo.Context) *models.Word {
 	var v = services.NewWordServices()
-	word, err := v.GetRandomWord(getCookieValue(c))
-	if err != nil {
-		log.Fatal(err)
+	switch c.QueryParam("status") {
+	case "":
+		word, err := v.GetRandomWord(getCookieValue(c))
+		if err != nil {
+			log.Fatal(err)
+			return nil
+		}
+		return word
+	case "star":
+		word, err := v.GetFavoriteRandomWord(getCookieValue(c))
+		if err != nil {
+			log.Fatal(err)
+			return nil
+		}
+		return word
+	case "nice":
+		return nil
+	default:
 		return nil
 	}
-	return word
 }
