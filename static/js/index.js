@@ -97,7 +97,7 @@ var vm = new Vue({
         type: 'GET',
         dataType: 'json',
         data: {
-          status: status
+          sort: status
         },
         success: function(data) {
 
