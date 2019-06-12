@@ -48,7 +48,12 @@ func (w *wordUseCase) GetRandomWord(c echo.Context) *models.Word {
 		}
 		return word
 	case "nice":
-		return nil
+		word, err := v.GetWordSortedNice(getCookieValue(c))
+		if err != nil {
+			log.Fatal(err)
+			return nil
+		}
+		return word
 	default:
 		return nil
 	}

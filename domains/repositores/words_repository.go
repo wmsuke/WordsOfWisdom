@@ -13,6 +13,7 @@ type WordRepository interface {
 	FindOne(wordId int, userId int) (*models.Word, error)
 	RandomOne(userId int) (*models.Word, error)
 	FondSortedFavoriteOne(userId int) (*models.Word, error)
+	FondSortedNiceOne(userId int) (*models.Word, error)
 }
 
 func NewWordRepository() WordRepository {
@@ -99,6 +100,28 @@ func (wordRepository *wordRepository) RandomOne(userId int) (*models.Word, error
 }
 
 func (wordRepository *wordRepository) FondSortedFavoriteOne(userId int) (*models.Word, error) {
+	words := make([]models.Words, 0)
+	sql := `
+		SELECT * FROM 
+		(SELECT word_id, COUNT(word_id) word_count FROM favorites GROUP BY word_id) AS c
+		LEFT JOIN words w ON c.word_id = w.id
+		ORDER BY word_count DESC;
+	`
+
+	if err := engine.Sql(sql).Find(&words); err != nil {
+		log.Fatalf("%v", err)
+		return nil, err
+	}
+
+	word, err := generateWordModels(words[0], userId)
+	if err != nil {
+		log.Fatalf("%v", err)
+		return nil, err
+	}
+	return word, nil
+}
+
+func (wordRepository *wordRepository) FondSortedNiceOne(userId int) (*models.Word, error) {
 	words := make([]models.Words, 0)
 	sql := `
 		SELECT * FROM 
