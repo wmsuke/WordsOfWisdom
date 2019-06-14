@@ -46,6 +46,10 @@ func Router(e *echo.Echo) {
 		var v = usecase.NewWordUseCase()
 		return c.JSON(http.StatusOK, v.GetRandomWord(c))
 	})
+	c.POST("/words/", func(c echo.Context) error {
+		var v = usecase.NewWordUseCase()
+		return c.JSON(http.StatusOK, v.Add())
+	})
 	c.GET("/words/:id", func(c echo.Context) error {
 		id, err := validateId(c.Param("id"))
 		if err != nil {

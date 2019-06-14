@@ -14,6 +14,7 @@ type WordRepository interface {
 	RandomOne(userId int) (*models.Word, error)
 	FondSortedFavoriteOne(userId int) (*models.Word, error)
 	FondSortedNiceOne(userId int) (*models.Word, error)
+	Add(word models.Word) (*models.Word, error)
 }
 
 func NewWordRepository() WordRepository {
@@ -177,4 +178,23 @@ func generateWordModels(word models.Words, userId int) (*models.Word, error) {
 		NiceStatus:      niceStatus,
 		FavortiteStatus: favoriteStatus,
 	}, nil
+}
+
+func (wordRepository *wordRepository) Add(word models.Word) (*models.Word, error) {
+	var words = models.Words{}
+	has, err := engine.Where("id = ?", wordId).Get(&words)
+	if err != nil {
+		log.Fatalf("%v", err)
+		return nil, err
+	}
+	if has {
+		word, err := generateWordModels(words, userId)
+		if err != nil {
+			log.Fatalf("%v", err)
+			return nil, err
+		}
+		return word, nil
+	}
+
+	return nil, nil
 }
