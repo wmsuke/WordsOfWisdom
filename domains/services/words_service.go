@@ -16,7 +16,7 @@ type WordServices interface {
 	GetRandomWord(key string) (*models.Word, error)
 	GetWordSortedFavorite(key string) (*models.Word, error)
 	GetWordSortedNice(key string) (*models.Word, error)
-	Add() (*models.Word, error)
+	Add(word models.Words) (*models.Word, error)
 }
 
 func NewWordServices() WordServices {
@@ -95,14 +95,14 @@ func (w *wordServices) GetWordSortedNice(key string) (*models.Word, error) {
 	return word, nil
 }
 
-func (w *wordServices) Add() (*models.Word, error) {
-	var tmpword = models.Word{Word: "aaa"}
+func (w *wordServices) Add(word models.Words) (*models.Word, error) {
 	var v = repositores.NewWordRepository()
-	word, err := v.Add(tmpword)
+	log.Print("step service 1")
+	returnWord, err := v.Add(word)
 	if err != nil {
 		log.Fatal(err)
 		return nil, errors.New("DBエラー")
 	}
 
-	return word, nil
+	return returnWord, nil
 }

@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"log"
+	"time"
 
 	"github.com/labstack/echo"
 	"github.com/wmsuke/WordsOfWisdom/domains/models"
@@ -62,7 +63,15 @@ func (w *wordUseCase) GetRandomWord(c echo.Context) *models.Word {
 
 func (w *wordUseCase) Add(c echo.Context) *models.Word {
 	var v = services.NewWordServices()
-	word, err := v.Add(getCookieValue(c))
+	var tmpword = models.Words{
+		Word:       c.FormValue("word"),
+		Author:     c.FormValue("author"),
+		CategoryId: 1,
+		Timestamp:  time.Now(),
+	}
+	log.Print("step usecase 1")
+	// word, err := v.Add(getCookieValue(c))
+	word, err := v.Add(tmpword)
 	if err != nil {
 		log.Fatal(err)
 		return nil
