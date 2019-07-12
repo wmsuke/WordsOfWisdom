@@ -181,15 +181,11 @@ func generateWordModels(word models.Words, userId int) (*models.Word, error) {
 }
 
 func (wordRepository *wordRepository) Add(word models.Words) (*models.Word, error) {
-	log.Print("step repository 1")
 	has, err := engine.InsertOne(word)
-	log.Printf("step repository 2 %d", has)
 	if err != nil || has < 1 {
-		log.Print("step repository error")
 		log.Fatalf("%v", err)
 		return nil, err
 	}
-	log.Print("step repository 2")
 
 	// return &word, nil
 	return nil, nil
